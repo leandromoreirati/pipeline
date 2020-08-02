@@ -1,5 +1,5 @@
 /* Deploy option is not deploy to environment */
-def deployment = false
+def deployment = true
 
 /* Build application */
 def build_docker_image() {
@@ -46,9 +46,9 @@ pipeline {
 
     stage('Build Docker Image') {
 
-/*       when {
+      when {
         expression { deployment }
-      } // when */
+      } // when
 
       steps {
         script {
