@@ -105,7 +105,9 @@ pipeline {
               currentBuild.result = 'FAILURE'
               build_docker_image()
               notifySlack()
-          } // catch
+          } finally {
+              notifySlack(currentBuild.result)
+          } // finally
 
         } // script
 
