@@ -46,9 +46,9 @@ pipeline {
 
     stage('Build Docker Image') {
 
-      when {
+/*       when {
         expression { deployment }
-      } // when
+      } // when */
 
       steps {
         script {
