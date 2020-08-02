@@ -89,7 +89,7 @@ pipeline {
 
           slackSend(
               channel: slackChannel,
-              message: "Job ${env.BUILD_NUMBER}*: Starting *${env.ENV}* deployment with code from *${env.BRANC_NAME}* - commit hash *${env.GIT_COMMIT}*\n *More info: ${env.JOB_URL}*",
+              message: "Job ${env.BUILD_NUMBER}*: *${env.ENV}* deployment *SUCESS* *\n *More info: ${env.JOB_URL}*",
               color: "good"
           )
 
@@ -99,7 +99,7 @@ pipeline {
 
           slackSend(
               channel: slackChannel,
-              message: "Job ${env.BUILD_NUMBER}*: Starting *${env.ENV}* deployment with code from *${env.BRANC_NAME}* - commit hash *${env.GIT_COMMIT}*\n *More info: ${env.JOB_URL}*",
+              message: "Job ${env.BUILD_NUMBER}*: *${env.ENV}* deployment *FAILURE* *\n *More info: ${env.JOB_URL}*",
               color: "danger"
           )
 
