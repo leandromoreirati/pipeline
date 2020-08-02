@@ -63,7 +63,7 @@ pipeline {
 
     } // stage Build Docker Image
 
-/*     stage('Deployment') {
+    stage('Deployment') {
 
       when {
         expression { deployment }
@@ -96,7 +96,7 @@ pipeline {
       } // steps
 
     } // stage Build Docker Image
- */
+
 
 
   } // stages
