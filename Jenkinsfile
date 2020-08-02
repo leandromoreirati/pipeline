@@ -34,10 +34,9 @@ pipeline {
         script {
 
           slackSend(
-              channel: slackChannel.
+              channel: slackChannel,
               message: "Job ${env.BUILD_NUMBER}*: Starting *${env.ENV}* deployment with code from *${env.BRANC_NAME}* - commit hash *${env.GIT_COMMIT}*\n *More info: ${env.JOB_URL}*",
               color: "warning"
-
           )
 
         } // script
