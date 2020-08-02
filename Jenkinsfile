@@ -4,7 +4,7 @@ def deployment = true
 /* Build application */
 def build_docker_image() {
   sh'''
-    docker run hello-worl
+    docker run hello-world
   '''
 }
 
@@ -23,27 +23,6 @@ pipeline {
   agent any
 
   stages {
-
-    /* stage('Notify Build Start') {
-
-      when {
-        expression { deployment }
-      } // when
-
-      steps {
-        script {
-
-          slackSend(
-              channel: slackChannel,
-              message: "Job ${env.BUILD_NUMBER}*: Starting *${env.ENV}* deployment with code from *${env.BRANC_NAME}* - commit hash *${env.GIT_COMMIT}*\n *More info: ${env.JOB_URL}*",
-              color: "warning"
-          )
-
-        } // script
-
-      } // steps
-
-    } // stage Build Docker Image */
 
     stage('Build Docker Image') {
 
@@ -101,7 +80,7 @@ pipeline {
                   color: "danger"
               )
 
-          }
+          } // catch
 
         } // script
 
