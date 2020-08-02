@@ -24,7 +24,7 @@ pipeline {
 
   stages {
 
-    stage('Notify Build Start') {
+    /* stage('Notify Build Start') {
 
       when {
         expression { deployment }
@@ -43,7 +43,7 @@ pipeline {
 
       } // steps
 
-    } // stage Build Docker Image
+    } // stage Build Docker Image */
 
     stage('Build Docker Image') {
 
@@ -77,20 +77,33 @@ pipeline {
               break
           } // switch
 
-          notifySlack()
+          slackSend(
+              channel: slackChannel,
+              message: "Job ${env.BUILD_NUMBER}*: Starting *${env.ENV}* deployment with code from *${env.BRANC_NAME}* - commit hash *${env.GIT_COMMIT}*\n *More info: ${env.JOB_URL}*",
+              color: "warning"
+          )
 
           try {
 
             build_docker_image()
 
-            notifySlack()
+          slackSend(
+              channel: slackChannel,
+              message: "Job ${env.BUILD_NUMBER}*: Starting *${env.ENV}* deployment with code from *${env.BRANC_NAME}* - commit hash *${env.GIT_COMMIT}*\n *More info: ${env.JOB_URL}*",
+              color: "good"
+          )
+
           } catch(exc) {
               currentBuild.result = 'FAILURE'
               build_docker_image()
-              notifySlack()
-          } finally {
-              notifySlack(currentBuild.result)
-          } // finally
+
+          slackSend(
+              channel: slackChannel,
+              message: "Job ${env.BUILD_NUMBER}*: Starting *${env.ENV}* deployment with code from *${env.BRANC_NAME}* - commit hash *${env.GIT_COMMIT}*\n *More info: ${env.JOB_URL}*",
+              color: "danger"
+          )
+
+          }
 
         } // script
 
