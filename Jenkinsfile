@@ -23,14 +23,14 @@ pipeline {
   stages {
 
     stage('Build Docker Image') {
-      when {
+      /* when {
         expression { deployment }
-      } // when
+      } // when */
       steps {
         script {
-          sh'''
-            echo "==== Make Docker Image ===="
-          '''
+
+          build_application()
+          
         } // script
 
       } // steps
