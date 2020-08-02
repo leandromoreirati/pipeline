@@ -16,28 +16,7 @@ def get_branch(String branch_name) {
     Error: "Branch ${branch_name} not found."
 }
 
-/* Slack notifiction */
-def notifySlack(String buildStatus = 'STARTED') {
-    // Build status of null means success.
-    /* buildStatus = buildStatus ?: 'SUCCESS' */
-    buildStatus = currentBuild.result == 'SUCCESS'
-
-    def color
-
-    if (buildStatus == 'STARTED') {
-        color = 'warning'
-    } else if (buildStatus == 'SUCCESS') {
-        color = 'good'
-    } else if (buildStatus == 'UNSTABLE') {
-        color = 'danger'
-    } else {
-        color = 'danger'
-    }
-
-    def msg = "${buildStatus}: `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n${env.BUILD_URL}"
-
-    slackSend(color: color, message: msg)
-}
+slackChannel = "#monitoramento"
 
 pipeline {
 
@@ -54,7 +33,12 @@ pipeline {
       steps {
         script {
 
-          notifySlack()
+          slackSend(
+              channel: slackChannel.
+              message: "Job ${env.BUILD_NUMBER}*: Starting *${env.ENV}* deployment with code from *${env.BRANC_NAME}* - commit hash *${env.GIT_COMMIT}*\n *More info: ${env.JOB_URL}*",
+              color: "warning"
+
+          )
 
         } // script
 
