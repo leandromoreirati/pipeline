@@ -3,7 +3,9 @@ def deployment = false
 
 /* Build application */
 def build_application() {
-  docker run hello-world 
+  sh'''
+    docker run hello-world 
+  '''
 }
 
 /* Return branh type based on branch name */
@@ -30,7 +32,7 @@ pipeline {
         script {
 
           build_application()
-          
+
         } // script
 
       } // steps
