@@ -4,7 +4,7 @@ def deployment = true
 /* Build application */
 def build_docker_image() {
   sh'''
-    docker run hello-world 
+    docker run hello-worl
   '''
 }
 
@@ -85,13 +85,13 @@ pipeline {
 
           try {
 
-            build_docker_image(
+            build_docker_image()
 
-          slackSend(
-              channel: slackChannel,
-              message: "Job ${env.BUILD_NUMBER}*: *${env.ENV}* deployment *SUCESS* *\n *More info: ${env.JOB_URL}*",
-              color: "good"
-          )
+            slackSend(
+                channel: slackChannel,
+                message: "Job ${env.BUILD_NUMBER}*: *${env.ENV}* deployment *SUCESS* *\n *More info: ${env.JOB_URL}*",
+                color: "good"
+            )
 
           } catch(exc) {
               currentBuild.result = 'FAILURE'
