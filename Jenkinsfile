@@ -95,13 +95,11 @@ pipeline {
 
           } catch(exc) {
               currentBuild.result = 'FAILURE'
-              build_docker_image()
-
-          slackSend(
-              channel: slackChannel,
-              message: "Job ${env.BUILD_NUMBER}*: *${env.ENV}* deployment *FAILURE* *\n *More info: ${env.JOB_URL}*",
-              color: "danger"
-          )
+              slackSend(
+                  channel: slackChannel,
+                  message: "Job ${env.BUILD_NUMBER}*: *${env.ENV}* deployment *FAILURE* *\n *More info: ${env.JOB_URL}*",
+                  color: "danger"
+              )
 
           }
 
