@@ -19,7 +19,8 @@ def get_branch(String branch_name) {
 /* Slack notifiction */
 def notifySlack(String buildStatus = 'STARTED') {
     // Build status of null means success.
-    buildStatus = buildStatus ?: 'SUCCESS'
+    /* buildStatus = buildStatus ?: 'SUCCESS' */
+    buildStatus = currentBuild.result == 'SUCCESS'
 
     def color
 
