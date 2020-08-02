@@ -45,6 +45,23 @@ pipeline {
 
   stages {
 
+    stage('Notify Build Start') {
+
+      when {
+        expression { deployment }
+      } // when
+
+      steps {
+        script {
+
+          notifySlack()
+
+        } // script
+
+      } // steps
+
+    } // stage Build Docker Image
+
     stage('Build Docker Image') {
 
       when {
@@ -55,8 +72,6 @@ pipeline {
         script {
 
           build_docker_image()
-
-          notifySlack()
 
         } // script
 
