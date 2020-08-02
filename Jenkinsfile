@@ -55,13 +55,15 @@ pipeline {
 
           build_docker_image()
 
+          notifySlack()
+
         } // script
 
       } // steps
 
     } // stage Build Docker Image
 
-    stage('Deployment') {
+/*     stage('Deployment') {
 
       when {
         expression { deployment }
@@ -86,20 +88,15 @@ pipeline {
           } catch(exc) {
               currentBuild.result = 'FAILURE'
               build_docker_image()
+              notifySlack()
           } // catch
-          
-          
-
-
-
-
 
         } // script
 
       } // steps
 
     } // stage Build Docker Image
-
+ */
 
 
   } // stages
