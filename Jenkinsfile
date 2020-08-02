@@ -2,7 +2,7 @@
 def deployment = false
 
 /* Build application */
-def build_application() {
+def build_docker_image() {
   sh'''
     docker run hello-world 
   '''
@@ -16,7 +16,27 @@ def get_branch(String branch_name) {
     Error: "Branch ${branch_name} not found."
 }
 
-def slackChannel = "#monitoramento"
+/* Slack notifiction */
+def notifySlack(String buildStatus = 'STARTED') {
+    // Build status of null means success.
+    buildStatus = buildStatus ?: 'SUCCESS'
+
+    def color
+
+    if (buildStatus == 'STARTED') {
+        color = '#D4DADF'
+    } else if (buildStatus == 'SUCCESS') {
+        color = '#BDFFC3'
+    } else if (buildStatus == 'UNSTABLE') {
+        color = '#FFFE89'
+    } else {
+        color = '#FF9FA1'
+    }
+
+    def msg = "${buildStatus}: `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n${env.BUILD_URL}"
+
+    slackSend(color: color, message: msg)
+}
 
 pipeline {
 
@@ -25,13 +45,54 @@ pipeline {
   stages {
 
     stage('Build Docker Image') {
+
       when {
         expression { deployment }
       } // when
+
       steps {
         script {
 
-          build_application()
+          build_docker_image()
+
+        } // script
+
+      } // steps
+
+    } // stage Build Docker Image
+
+    stage('Deployment') {
+
+      when {
+        expression { deployment }
+      } // when
+
+      steps {
+        script {
+
+          switch(get_branch("${env.BRANCH_NAME}")) {
+            case "master":
+              env.ENV = "production"
+              break
+          } // switch
+
+          notifySlack()
+
+          try {
+
+            build_docker_image()
+
+            notifySlack()
+          } catch(exc) {
+              currentBuild.result = 'FAILURE'
+              build_docker_image()
+          } // catch
+          
+          
+
+
+
+
 
         } // script
 
