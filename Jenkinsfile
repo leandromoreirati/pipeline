@@ -1,5 +1,5 @@
 /* Deploy option is not deploy to environment */
-def deployment = true
+def deployment = false
 
 /* Build application */
 def build_docker_image() {
@@ -24,13 +24,13 @@ def notifySlack(String buildStatus = 'STARTED') {
     def color
 
     if (buildStatus == 'STARTED') {
-        color = '#D4DADF'
+        color = 'warning'
     } else if (buildStatus == 'SUCCESS') {
-        color = '#BDFFC3'
+        color = 'good'
     } else if (buildStatus == 'UNSTABLE') {
-        color = '#FFFE89'
+        color = 'danger'
     } else {
-        color = '#FF9FA1'
+        color = 'danger'
     }
 
     def msg = "${buildStatus}: `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n${env.BUILD_URL}"
