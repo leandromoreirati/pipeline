@@ -64,7 +64,7 @@ pipeline {
 
           try {
 
-            build_docker_image(
+            build_docker_image
 
             slackSend(
                 channel: slackChannel,
